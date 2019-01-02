@@ -11,8 +11,9 @@ namespace CDC.AzureEventCollector
 {
     public class Collector : IPersistentCollector
     {
-        public Collector(string eventHubConnectionString, string eventHubName, uint maxRetryCount, IHealthStore healthStore)
+        public Collector(Guid id, string eventHubConnectionString, string eventHubName, uint maxRetryCount, IHealthStore healthStore)
         {
+            this.id = id;
             this.eventHubConnectionString = eventHubConnectionString;
             this.eventHubName = eventHubName;
             this.maxRetryCount = maxRetryCount;
@@ -55,9 +56,15 @@ namespace CDC.AzureEventCollector
 
         private string GetEventHubKey()
         {
-            return this.eventHubConnectionString + this.eventHubName;
+            return this.eventHubConnectionString + "/" + this.eventHubName;
         }
 
+        public Guid GetId()
+        {
+            return this.id;
+        }
+
+        Guid id;
         private static Dictionary<string, EventHubClient> eventHubClients = new Dictionary<string, EventHubClient>();
         private readonly string eventHubConnectionString;
         private readonly string eventHubName;
