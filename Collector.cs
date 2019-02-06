@@ -11,15 +11,17 @@ namespace CDC.AzureEventCollector
 {
     public class Collector : IPersistentCollector
     {
-        public Collector(Guid id, string eventHubConnectionString, string eventHubName, uint maxRetryCount, IHealthStore healthStore)
+        public Collector(Guid id, string eventHubConnectionString, string eventHubName,
+            uint maxRetryCount, IHealthStore healthStore, TimeSpan delayInRetry)
         {
             this.id = id;
             this.eventHubConnectionString = eventHubConnectionString;
             this.eventHubName = eventHubName;
             this.maxRetryCount = maxRetryCount;
             this.healthStore = healthStore;
+            this.delayInRetry = delayInRetry;
 
-            if (eventHubClients.ContainsKey(GetEventHubKey()))
+            if (!eventHubClients.ContainsKey(GetEventHubKey()))
             {
                 var connectionStringBuilder = new EventHubsConnectionStringBuilder(eventHubConnectionString)
                 {
@@ -31,27 +33,32 @@ namespace CDC.AzureEventCollector
             }
         }
 
-        public async Task PersistTransactions(List<PartitionChange> changes)
+        public async Task PersistTransactions(PartitionChange changes)
         {
             var eventHubClient = eventHubClients[GetEventHubKey()];
             var changesInJson = JsonConvert.SerializeObject(changes);
             var retryCount = 0;
+            Exception sendException = null;
 
             while (retryCount < this.maxRetryCount)
             {
                 try
                 {
                     await eventHubClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(changesInJson)));
-                    break;
+                    return;
                 }
                 catch (Exception ex)
                 {
                     var msg = string.Format("AzureEventBusCollector : Retry {0}, Exception while persisting changes {1}", retryCount, ex.ToString());
                     healthStore.WriteWarning(msg);
+                    sendException = ex;
                 }
 
                 retryCount += 1;
+                await Task.Delay(this.delayInRetry);
             }
+
+            throw sendException;
         }
 
         private string GetEventHubKey()
@@ -70,5 +77,6 @@ namespace CDC.AzureEventCollector
         private readonly string eventHubName;
         private readonly uint maxRetryCount;
         private IHealthStore healthStore;
+        private TimeSpan delayInRetry;
     }
 }
