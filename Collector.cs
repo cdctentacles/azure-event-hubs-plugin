@@ -35,6 +35,13 @@ namespace CDC.AzureEventCollector
 
         public async Task PersistTransactions(PartitionChange changes)
         {
+            if (changes.PartitionId != this.id)
+            {
+                var msg = $"AzureEventCollector for partition {this.id} received changes for another partition {changes.PartitionId}";
+                healthStore.WriteError(msg);
+                System.Environment.FailFast(msg);
+            }
+
             var eventHubClient = eventHubClients[GetEventHubKey()];
             var changesInJson = JsonConvert.SerializeObject(changes);
             var retryCount = 0;
