@@ -44,7 +44,8 @@ namespace EventHubsConsumer
                 var data = Encoding.UTF8.GetString(eventData.Body.Array, eventData.Body.Offset, eventData.Body.Count);
                 Console.WriteLine($"Message received. Partition: '{context.PartitionId}', Data: '{data}'");
                 var dataBytes = Encoding.ASCII.GetBytes(data);
-                collector.TransactionApplied(id, lsn++, dataBytes);
+                var nextLsn = lsn++;
+                collector.TransactionApplied(id, nextLsn-1, nextLsn, dataBytes);
             }
 
             return context.CheckpointAsync();

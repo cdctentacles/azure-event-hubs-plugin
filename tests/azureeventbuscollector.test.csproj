@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <Compile Include="TestCollector.cs" />
+    <Compile Include="TestEventCollector.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\azureeventbuscollector.csproj" />
+    <ProjectReference Include="..\producer\azureeventbuscollector.csproj" />
+    <ProjectReference Include="..\consumer\EventHubsConsumer.csproj" />
     <ProjectReference Include="..\..\eventcollector\tests\common\eventcollector.common.tests.csproj" />
   </ItemGroup>
 

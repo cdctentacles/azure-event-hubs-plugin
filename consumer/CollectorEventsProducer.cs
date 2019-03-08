@@ -23,10 +23,10 @@ namespace EventHubsConsumer
             return this.Id;
         }
 
-        public override ITransactionalLog GetTransactionalLog()
-        {
-            return null;
-        }
+        // public override ITransactionalLog GetTransactionalLog()
+        // {
+        //     return null;
+        // }
 
         public IEventCollector Collector
         {
