@@ -4,7 +4,7 @@ using EventHubsConsumer;
 using CDC.EventCollector;
 using eventcollector.tests;
 
-namespace EventHubsConsumer.tests
+namespace CDC.AzureEventCollector
 {
     public class UserScenario
     {
