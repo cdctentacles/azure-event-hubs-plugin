@@ -7,7 +7,7 @@ using CDC.EventCollector;
 using Microsoft.Azure.EventHubs;
 using Newtonsoft.Json;
 
-namespace CDC.AzureEventCollector
+namespace CDC.AzureEventHubsPlugin
 {
     public class Collector : IPersistentCollector
     {

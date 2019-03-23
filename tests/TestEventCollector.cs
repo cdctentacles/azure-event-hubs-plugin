@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CDC.EventCollector;
 
-namespace CDC.AzureEventCollector
+namespace CDC.AzureEventHubsPlugin
 {
     public class TestEventCollector : IEventCollector
     {

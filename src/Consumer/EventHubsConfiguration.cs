@@ -5,7 +5,7 @@ using CDC.EventCollector;
 using Microsoft.Azure.EventHubs;
 using Microsoft.Azure.EventHubs.Processor;
 
-namespace EventHubsConsumer
+namespace CDC.AzureEventHubsPlugin
 {
     public class EventHubsConfiguration
     {
@@ -45,7 +45,7 @@ namespace EventHubsConsumer
 
         public string AccountKey
         {
-            get { return this.AccountKey; }
+            get { return this.StorageAccountKey; }
         }
     }
 }

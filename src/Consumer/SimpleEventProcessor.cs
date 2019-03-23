@@ -6,7 +6,7 @@ using Microsoft.Azure.EventHubs.Processor;
 using System.Threading.Tasks;
 using CDC.EventCollector;
 
-namespace EventHubsConsumer
+namespace CDC.AzureEventHubsPlugin
 {
     public class SimpleEventProcessor : IEventProcessor
     {

@@ -10,7 +10,7 @@ using Xunit;
 
 [assembly: CollectionBehavior(MaxParallelThreads = 8)]
 
-namespace CDC.AzureEventCollector
+namespace CDC.AzureEventHubsPlugin
 {
     public class CDCCollectorTest
     {
@@ -23,8 +23,8 @@ namespace CDC.AzureEventCollector
             var partitionId = new Guid();
             var testSourceFactory = new TestEventSourceFactory(partitionId);
             var persistentCollector = new Collector(partitionId,
-                "Endpoint=sb://cdctentacles.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=abcdefghijklmnopqrstuvwxyz",
-                "test1",
+                "<hubsendpoint>",
+                "cluster1",
                 1,
                 new TestHealthStore(),
                 TimeSpan.FromSeconds(1));
@@ -37,11 +37,12 @@ namespace CDC.AzureEventCollector
             Assert.NotNull(testSourceFactory.EventSource);
 
             var eventSource = testSourceFactory.EventSource;
-            var transactionBytes = Encoding.ASCII.GetBytes("{}");
+            var transactionBytes = Encoding.ASCII.GetBytes("{\"key\":\"value\"}");
             var transactionTasks = new List<Task>();
             var totalTaransactions = 10;
+            var startingLsn = 100;
             Task t1 = null;
-            for (var lsn = 1; lsn <= totalTaransactions; ++lsn)
+            for (var lsn = startingLsn; lsn <= startingLsn + totalTaransactions; ++lsn)
             {
                 Task t2 = eventSource.OnTransactionApplied(lsn - 1, lsn, transactionBytes);
                 if (t2 != t1)

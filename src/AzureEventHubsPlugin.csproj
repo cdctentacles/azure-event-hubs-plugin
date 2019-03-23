@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\eventcollector\src\eventcollector.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Producer\Collector.cs" />
+    <Compile Include="Consumer\CollectorEventsProducer.cs" />
+    <Compile Include="Consumer\CollectorEventsProducerFactory.cs" />
+    <Compile Include="Consumer\EventHubsConfiguration.cs" />
+    <Compile Include="Consumer\EventProcessorFactory.cs" />
+    <Compile Include="Consumer\SimpleEventProcessor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.EventHubs" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Azure.EventHubs.Processor" Version="3.0.0" />
+  </ItemGroup>
+
+</Project>

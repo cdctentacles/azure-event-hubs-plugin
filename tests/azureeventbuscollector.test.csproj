@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\producer\azureeventbuscollector.csproj" />
-    <ProjectReference Include="..\consumer\EventHubsConsumer.csproj" />
+    <ProjectReference Include="..\src\AzureEventHubsPlugin.csproj" />
     <ProjectReference Include="..\..\eventcollector\tests\common\eventcollector.common.tests.csproj" />
   </ItemGroup>
 
