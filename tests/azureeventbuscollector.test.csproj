@@ -8,8 +8,8 @@
 
   <ItemGroup>
     <Compile Include="TestCollector.cs" />
-    <!-- <Compile Include="TestEventCollector.cs" />
-    <Compile Include="UnitTest1.cs" /> -->
+    <Compile Include="TestEventCollector.cs" />
+    <Compile Include="TestEventHubsConsumer.cs" />
   </ItemGroup>
 
   <ItemGroup>

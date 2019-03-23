@@ -14,11 +14,7 @@ function Exec
     }
 }
 
-pushd consumer
-Exec { dotnet build }
-popd
-
-pushd producer
+pushd src
 Exec { dotnet build }
 popd
 
