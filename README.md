@@ -1,2 +1,2 @@
 # azure-event-hubs-plugin
-Azure Event Bus collector for persistent storage of CDC events
+Azure Event Hubs plugin for persistent storage and retrieval of CDC events.
