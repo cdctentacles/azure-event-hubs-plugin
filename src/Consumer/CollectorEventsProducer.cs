@@ -16,6 +16,7 @@ namespace CDC.AzureEventHubsPlugin
             this.Id = new Guid();
             this.collector = collector;
             this.conf = conf;
+            this.healthStore = healthStore;
         }
 
         public async Task Init()
@@ -47,19 +48,19 @@ namespace CDC.AzureEventHubsPlugin
             }
             catch (Exception e)
             {
-                Console.WriteLine("StartEventProcessor() failed with: ", e);
+                var msg = string.Format("AzureEventHubsPlugin: StartEventProcessor() failed with exception {0}", e);
+                healthStore.WriteError(msg);
             }
-            
 
             try
             {
                 // Registers the Event Processor Host and starts receiving messages
-                // https://stackoverflow.com/questions/33371803/how-to-pass-parameters-to-an-implementation-of-ieventprocessor
                 await eventProcessorHost.RegisterEventProcessorFactoryAsync(new EventProcessorFactory(collector, GetSourceId()));
             }
             catch (Exception e)
             {
-                Console.WriteLine("StartEventProcessor() failed with: ", e);
+                var msg = string.Format("AzureEventHubsPlugin: StartEventProcessor() failed with exception {0}", e);
+                healthStore.WriteError(msg);
             }
         }
 
@@ -80,5 +81,6 @@ namespace CDC.AzureEventHubsPlugin
         private IEventCollector collector;
         private readonly EventHubsConfiguration conf;
         private EventProcessorHost eventProcessorHost;
+        private IHealthStore healthStore;
     }
 }
